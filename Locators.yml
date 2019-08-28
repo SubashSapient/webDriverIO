@@ -1,0 +1,31 @@
+homePage:
+  - ID:
+      username: subash
+  - name:
+      username: username
+      password: pass
+  - xpath:
+      homePageLoginLink: "//a/span[text()='Hello, Sign in']"
+      username: "//input[@type='email']"
+      continue: "//input[@id='continue']"
+      password: "//input[@type='password']"
+      loginButton: "//input[@id='signInSubmit']"
+      userLoggedIn: "//div[@id='nav-tools']/a/span[contains(text(),'Hello')]"
+      cartIcon: "//span[@id='nav-cart-count']"
+      searchBox: "//input[@id='twotabsearchtextbox']"
+      searchIcon: "//input[@type='submit' and @value='Go']"
+  - cssSelector:
+      username: username
+      password: pass
+  - linkText:
+      username: username
+      password: pass
+  - className:
+      username: username
+      password: pass
+  - tagName:
+      username: username
+      password: pass
+secondPage:
+  -ID:
+    tagName: test      
