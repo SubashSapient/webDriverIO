@@ -1,3 +1,5 @@
+const { TimelineService } = require('wdio-timeline-reporter/timeline-service');
+
 var baseURL='https://amazon.in'
 exports.config = {
     //
@@ -9,12 +11,12 @@ exports.config = {
     // on a remote machine).
     baseURL:baseURL,
     runner: 'local',
-    port: 4723,
+    port: 4444,
     //
     // Override default path ('/wd/hub') for chromedriver service.
-    path: '/',
+    path: '/wd/hub',
     specs: [
-        './src/test/resources/features'
+        './src/test/resources/features/*.feature'
     ],
     // Patterns to exclude.
     exclude: [
@@ -24,7 +26,10 @@ exports.config = {
     capabilities: [{
         maxInstances: 5,
         browserName: 'chrome',
-        platformName: 'Windows 10' // OS platform
+        platformName: 'Windows 10', // OS platform
+        'zal:recordVideo': true,
+        'zal:name': 'Demo Integration Tests',
+        'zal:build': 'WebDriverIO',        
     }],
     //proxy: {
       //  proxyType: "manual",
@@ -58,9 +63,16 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'cucumber',
-    reporters: ['dot','spec','junit',['allure', {outputDir: 'allure-results'}],'video','cucumberjs-json','timeline'],
+    reporters: ['dot','spec','junit',
+                    ['allure', 
+                        {
+                            outputDir: './test-result/allure-results/'
+                        }
+                    ],
+                    ['timeline', { outputDir: './test-report/timeline' }],
+                    'video','cucumberjs-json','timeline'],
     cucumberOpts: {
-        require: ['./src/test/javascript/Pages'],        // <string[]> (file/dir) require files before executing features
+        require: ['./src/test/javascript/Steps/*.js'],        // <string[]> (file/dir) require files before executing features
         backtrace: false,   // <boolean> show full backtrace for errors
         requireModule: [],  // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
         dryRun: false,      // <boolean> invoke formatters without executing steps
@@ -75,7 +87,11 @@ exports.config = {
         timeout: 60000,     // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
     },
-    
+    services: [
+        [TimelineService],
+        // Uncomment to run tests with Selenium Standalone, if you have JDK installed.
+        // ['selenium-standalone'],
+    ],   
     //
     // =====
     // Hooks
